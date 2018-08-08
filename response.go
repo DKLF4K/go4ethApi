@@ -94,3 +94,37 @@ type MinedBlock struct {
 	TimeStamp   Time    `json:"timeStamp"`
 	BlockReward *BigInt `json:"blockReward"`
 }
+
+// ContractSource holds info from query for contract source code
+type ContractSource struct {
+	SourceCode           string `json:"SourceCode"`
+	ABI                  string `json:"ABI"`
+	ContractName         string `json:"ContractName"`
+	CompilerVersion      string `json:"CompilerVersion"`
+	OptimizationUsed     int    `json:"OptimizationUsed,string"`
+	Runs                 int    `json:"Runs,string"`
+	ConstructorArguments string `json:"ConstructorArguments"`
+	Library              string `json:"Library"`
+	SwarmSource          string `json:"SwarmSource"`
+}
+
+// ExecutionStatus holds info from query for transaction execution status
+type ExecutionStatus struct {
+	// 0 = pass, 1 = error
+	IsError        int    `json:"isError,string"`
+	ErrDescription string `json:"errDescription"`
+}
+
+// BlockRewards holds info from query for block and uncle rewards
+type BlockRewards struct {
+	BlockNumber int     `json:"blockNumber,string"`
+	TimeStamp   Time    `json:"timeStamp"`
+	BlockMiner  string  `json:"blockMiner"`
+	BlockReward *BigInt `json:"blockReward"`
+	Uncles      []struct {
+		Miner         string  `json:"miner"`
+		UnclePosition int     `json:"unclePosition,string"`
+		BlockReward   *BigInt `json:"blockreward"`
+	} `json:"uncles"`
+	UncleInclusionReward *BigInt `json:"uncleInclusionReward"`
+}
