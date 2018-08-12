@@ -69,13 +69,13 @@ func TestClient_InternalTxByAddress(t *testing.T) {
 	}
 }
 
-func TestClient_ERC20TransferTx(t *testing.T) {
+func TestClient_ERC20Transfers(t *testing.T) {
 	const wantLen = 3
 
 	var a, b = 3273004, 3328071
 	var contract, address = "0xe0b7927c4af23765cb51314a0e0521a9645f0e2a", "0x4e83362442b8d1bec281594cea3050c8eb01311c"
-	txs, err := api.ERC20TransferTx(&contract, &address, &a, &b, 1, 500)
-	noError(t, err, "api.ERC20TransferTx")
+	txs, err := api.ERC20Transfers(&contract, &address, &a, &b, 1, 500)
+	noError(t, err, "api.ERC20Transfers")
 
 	//j, _ := json.MarshalIndent(txs, "", "  ")
 	//fmt.Printf("%s\n", j)
@@ -110,5 +110,14 @@ func TestClient_UnclesMinedByAddress(t *testing.T) {
 
 	if len(blocks) != wantLen {
 		t.Errorf("got txs length %v, want %v", len(blocks), wantLen)
+	}
+}
+
+func TestClient_TokenBalance(t *testing.T) {
+	balance, err := api.TokenBalance("0x57d90b64a1a57749b0f932f1a3395792e12e7055", "0xe04f27eb70e025b78871a2ad7eabe85e61212761")
+	noError(t, err, "api.TokenBalance")
+
+	if balance.Int().Cmp(big.NewInt(0)) != 1 {
+		t.Errorf("api.TokenBalance not working, got balance %s", balance.Int().String())
 	}
 }
